@@ -298,37 +298,6 @@ function initClientLogos() {
     }
 }
 
-// Form validation
-const contactForm = document.getElementById('contactForm');
-if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Basic form validation
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const phone = document.getElementById('phone').value;
-        const subject = document.getElementById('subject').value;
-        const message = document.getElementById('message').value;
-        
-        if (!name || !email || !phone || !subject || !message) {
-            alert('Por favor, complete todos los campos requeridos.');
-            return;
-        }
-        
-        // Email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            alert('Por favor, ingrese un correo electrónico válido.');
-            return;
-        }
-        
-        // If validation passes, would normally submit the form
-        alert('¡Gracias por su mensaje! Nos pondremos en contacto con usted pronto.');
-        contactForm.reset();
-    });
-}
-
 // Animate on scroll (updated implementation)
 const animateElements = document.querySelectorAll('.feature, .service-card, .iris-feature, .client-type, .testimonials-wrapper, .client-showcase');
 
@@ -610,17 +579,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize existing functionality
     // Initial animations check
     if (typeof checkScroll === 'function') {
-        checkScroll();
+    checkScroll();
     }
     
     // Initialize testimonials
     if (typeof initTestimonials === 'function') {
-        initTestimonials();
+    initTestimonials();
     }
     
     // Initialize client logos
     if (typeof initClientLogos === 'function') {
-        initClientLogos();
+    initClientLogos();
     }
     
     if (typeof initSmoothScroll === 'function') {
