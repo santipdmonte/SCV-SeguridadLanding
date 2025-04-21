@@ -410,18 +410,228 @@ function initSmoothScroll() {
     });
 }
 
-// Initialize all components
+// About Carousel functionality
+let aboutCurrentSlide = 0;
+let aboutCarouselInterval;
+const aboutSlides = document.querySelectorAll('.carousel-slide');
+const aboutIndicators = document.querySelectorAll('.indicator');
+const prevBtn = document.querySelector('.carousel-control.prev');
+const nextBtn = document.querySelector('.carousel-control.next');
+
+// Function to show a specific slide in about carousel
+function showAboutSlide(index) {
+    // Hide all slides
+    aboutSlides.forEach(slide => {
+        slide.classList.remove('active');
+    });
+    
+    // Remove active class from all indicators
+    aboutIndicators.forEach(indicator => {
+        indicator.classList.remove('active');
+    });
+    
+    // Show the selected slide and activate corresponding indicator
+    aboutSlides[index].classList.add('active');
+    aboutIndicators[index].classList.add('active');
+    
+    // Update current slide index
+    aboutCurrentSlide = index;
+}
+
+// Function to show the next slide in about carousel
+function nextAboutSlide() {
+    let nextIndex = aboutCurrentSlide + 1;
+    
+    // Reset to first slide if at the end
+    if (nextIndex >= aboutSlides.length) {
+        nextIndex = 0;
+    }
+    
+    showAboutSlide(nextIndex);
+}
+
+// Function to show the previous slide in about carousel
+function prevAboutSlide() {
+    let prevIndex = aboutCurrentSlide - 1;
+    
+    // Reset to last slide if at the beginning
+    if (prevIndex < 0) {
+        prevIndex = aboutSlides.length - 1;
+    }
+    
+    showAboutSlide(prevIndex);
+}
+
+// Function to start automatic rotation of about carousel
+function startAboutCarouselRotation() {
+    // Clear any existing interval
+    if (aboutCarouselInterval) {
+        clearInterval(aboutCarouselInterval);
+    }
+    
+    // Set a new interval
+    aboutCarouselInterval = setInterval(() => {
+        nextAboutSlide();
+    }, 4000); // Change slide every 4 seconds
+}
+
+// Initialize about carousel
+function initAboutCarousel() {
+    if (aboutSlides.length > 0 && aboutIndicators.length > 0) {
+        // Set up indicator click handlers
+        aboutIndicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                showAboutSlide(index);
+                
+                // Reset timer when manually changing slides
+                startAboutCarouselRotation();
+            });
+        });
+        
+        // Set up prev button click handler
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                prevAboutSlide();
+                
+                // Reset timer when manually changing slides
+                startAboutCarouselRotation();
+            });
+        }
+        
+        // Set up next button click handler
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                nextAboutSlide();
+                
+                // Reset timer when manually changing slides
+                startAboutCarouselRotation();
+            });
+        }
+        
+        // Show the first slide
+        showAboutSlide(0);
+        
+        // Start automatic rotation
+        startAboutCarouselRotation();
+        
+        // Pause rotation when user hovers over carousel container
+        const carouselContainer = document.querySelector('.carousel-container');
+        if (carouselContainer) {
+            carouselContainer.addEventListener('mouseenter', () => {
+                clearInterval(aboutCarouselInterval);
+            });
+            
+            carouselContainer.addEventListener('mouseleave', () => {
+                startAboutCarouselRotation();
+            });
+        }
+    }
+}
+
+// Hero Carousel automatic rotation
+let heroCurrentSlide = 0;
+let heroCarouselInterval;
+const heroSlides = document.querySelectorAll('.hero-slide');
+
+// Function to apply background images based on screen size
+function applyResponsiveBackgrounds() {
+    const isMobile = window.innerWidth <= 768;
+    
+    heroSlides.forEach(slide => {
+        const mobileBg = slide.getAttribute('data-mobile-bg');
+        const desktopBg = slide.getAttribute('data-desktop-bg');
+        
+        if (isMobile && mobileBg) {
+            slide.style.backgroundImage = `url('${mobileBg}')`;
+        } else if (desktopBg) {
+            slide.style.backgroundImage = `url('${desktopBg}')`;
+        }
+    });
+}
+
+// Function to show a specific hero slide
+function showHeroSlide(index) {
+    // Hide all slides
+    heroSlides.forEach(slide => {
+        slide.classList.remove('active');
+    });
+    
+    // Show the selected slide
+    heroSlides[index].classList.add('active');
+    
+    // Update current slide index
+    heroCurrentSlide = index;
+}
+
+// Function to show the next hero slide
+function nextHeroSlide() {
+    let nextIndex = heroCurrentSlide + 1;
+    
+    // Reset to first slide if at the end
+    if (nextIndex >= heroSlides.length) {
+        nextIndex = 0;
+    }
+    
+    showHeroSlide(nextIndex);
+}
+
+// Function to start automatic rotation of hero carousel
+function startHeroCarouselRotation() {
+    // Clear any existing interval
+    if (heroCarouselInterval) {
+        clearInterval(heroCarouselInterval);
+    }
+    
+    // Set a new interval - rotate every 5 seconds
+    heroCarouselInterval = setInterval(() => {
+        nextHeroSlide();
+    }, 5000);
+}
+
+// Initialize hero carousel
+function initHeroCarousel() {
+    if (heroSlides.length > 0) {
+        // Apply correct background images based on screen size
+        applyResponsiveBackgrounds();
+        
+        // Add window resize listener to update backgrounds when screen size changes
+        window.addEventListener('resize', applyResponsiveBackgrounds);
+        
+        // Show the first slide
+        showHeroSlide(0);
+        
+        // Start automatic rotation
+        startHeroCarouselRotation();
+    }
+}
+
+// Initialize all components when DOM is fully loaded
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize existing functionality
     // Initial animations check
-    checkScroll();
+    if (typeof checkScroll === 'function') {
+        checkScroll();
+    }
     
     // Initialize testimonials
-    initTestimonials();
+    if (typeof initTestimonials === 'function') {
+        initTestimonials();
+    }
     
     // Initialize client logos
-    initClientLogos();
+    if (typeof initClientLogos === 'function') {
+        initClientLogos();
+    }
+    
+    if (typeof initSmoothScroll === 'function') {
+        initSmoothScroll();
+    }
+    
+    // Initialize about carousel
+    initAboutCarousel();
+    
+    // Initialize hero carousel
+    initHeroCarousel();
     
     highlightNavOnScroll();
-    initSmoothScroll();
-    checkScroll(); // Check initial scroll position
 }); 
