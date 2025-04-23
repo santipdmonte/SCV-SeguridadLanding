@@ -684,7 +684,7 @@ nav {
     padding: 100px 0;
     background-color: var(--primary-color);
     color: white;
-    background-image: linear-gradient(135deg, rgba(10, 61, 98, 0.95) 0%, rgba(10, 61, 98, 0.8) 100%), url('./src/img/SVC-sala-control-camaras.jpg');
+    background-image: linear-gradient(135deg, rgba(10, 61, 98, 0.95) 0%, rgba(10, 61, 98, 0.8) 100%), url('./src/img/iris/iris_background.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -1683,4 +1683,14 @@ footer {
 
 .whatsapp-float i {
     margin-top: 2px;
+}
+
+.wormhole-link {
+    color: var(--secondary-color) !important;
+    transition: none;
+}
+
+.wormhole-link:hover {
+    color: var(--secondary-color) !important;
+    transform: none;
 } 
