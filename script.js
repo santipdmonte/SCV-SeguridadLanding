@@ -263,7 +263,7 @@ function initClientLogos() {
             }
             
             // Set animation duration based on the number of original logos - much slower
-            const duration = Math.max(30, originalLogosCount * 5);
+            const duration = Math.max(60, originalLogosCount * 10);
             track.style.animationDuration = duration + 's';
             
             // Apply the appropriate animation
